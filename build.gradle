@@ -1,0 +1,50 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.1'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+group = 'br.com.almeida'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	implementation "org.flywaydb:flyway-core"
+	implementation "io.springfox:springfox-swagger2"
+	implementation "io.springfox:springfox-swagger-ui"
+	
+	runtimeOnly 'com.h2database:h2'
+	
+	testImplementation "br.com.six2six:fixture-factory"
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+configurations.all {
+    exclude group: "junit", module: "junit"
+    exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+}
+
+dependencyManagement {
+    dependencies {
+        dependency "br.com.six2six:fixture-factory:3.1.0"
+        
+        dependencySet(group: "io.springfox", version: "2.9.2") {
+            entry "springfox-bean-validators"
+            entry "springfox-swagger2"
+            entry "springfox-swagger-ui"
+        }
+    }
+}
+test {
+	useJUnitPlatform()
+}
